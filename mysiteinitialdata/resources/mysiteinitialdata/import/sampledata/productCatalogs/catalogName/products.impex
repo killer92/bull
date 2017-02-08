@@ -1,0 +1,52 @@
+# ImpEx for Importing Products
+
+# Macros / Replacement Parameter definitions
+$productCatalog=mysiteProductCatalog
+
+$productCV=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $productCV)
+$baseProduct=baseProduct(code,$productCV)
+$approved=approvalstatus(code)[default='check']
+$imageResource=jar:com.mysite.initialdata.setup.InitialDataSystemSetup&/mysiteinitialdata/import/images
+
+INSERT_UPDATE MediaContainer;$productCV[unique=true];qualifier[unique=true]
+;;111001_media_container
+;;111002_media_container
+;;111003_media_container
+;;111004_media_container
+;;111005_media_container
+
+INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][unique=true,forceWrite=true];realfilename;altText;mediaContainer(qualifier,$productCV);$productCV
+;mysite-270X270;/270X270/111001.jpg;$imageResource/car-270x270.jpg;car-270x270.jpg;;111001_media_container
+;mysite-337X337;/337X337/111001.jpg;$imageResource/car-337X337.jpg;car-337X337.jpg;;111001_media_container
+;mysite-640X640;/640X640/111001.jpg;$imageResource/car-640X640.jpg;car-640X640.jpg;;111001_media_container
+
+;mysite-270X270;/270X270/111002.jpg;$imageResource/111002-270x270.jpg;111002-270x270.jpg;;111002_media_container
+;mysite-337X337;/337X337/111002.jpg;$imageResource/111002-337X337.jpg;111002-337X337.jpg;;111002_media_container
+;mysite-640X640;/640X640/111002-1.jpg;$imageResource/111002-640X640-1.jpg;111002-640X640-1.jpg;;111002_media_container
+;mysite-640X640;/640X640/111002-2.jpg;$imageResource/111002-640X640-2.jpg;111002-640X640-2.jpg;;111002_media_container
+;mysite-640X640;/640X640/111002-3.jpg;$imageResource/111002-640X640-3.jpg;111002-640X640-3.jpg;;111002_media_container
+
+;mysite-270X270;/270X270/111003.jpg;$imageResource/111003-270x270.jpg;111003-270x270.jpg;;111003_media_container
+;mysite-337X337;/337X337/111003.jpg;$imageResource/111003-337X337.jpg;111003-337X337.jpg;;111003_media_container
+;mysite-640X640;/640X640/111003-1.jpg;$imageResource/111003-640X640.jpg;111003-640X640.jpg;;111003_media_container
+
+;mysite-270X270;/270X270/111004.jpg;$imageResource/111004-270x270.jpg;111004-270x270.jpg;;111004_media_container
+;mysite-337X337;/337X337/111004.jpg;$imageResource/111004-337X337.jpg;111004-337X337.jpg;;111004_media_container
+;mysite-640X640;/640X640/111004-1.jpg;$imageResource/111004-640X640-1.jpg;111004-640X640-1.jpg;;111004_media_container
+;mysite-640X640;/640X640/111004-2.jpg;$imageResource/111004-640X640-2.jpg;111004-640X640-2.jpg;;111004_media_container
+;mysite-640X640;/640X640/111004-3.jpg;$imageResource/111004-640X640-3.jpg;111004-640X640-3.jpg;;111004_media_container
+
+;mysite-270X270;/270X270/111005.jpg;$imageResource/111005-270x270.jpg;111005-270x270.jpg;;111005_media_container
+;mysite-337X337;/337X337/111005.jpg;$imageResource/111005-337X337.jpg;111005-337X337.jpg;;111005_media_container
+;mysite-640X640;/640X640/111005-1.jpg;$imageResource/111005-640X640-1.jpg;111005-640X640-1.jpg;;111005_media_container
+;mysite-640X640;/640X640/111005-2.jpg;$imageResource/111005-640X640-2.jpg;111005-640X640-2.jpg;;111005_media_container
+;mysite-640X640;/640X640/111005-3.jpg;$imageResource/111005-640X640-3.jpg;111005-640X640-3.jpg;;111005_media_container
+
+# Insert Products
+INSERT_UPDATE Product;code[unique=true];unit(code);$productCV;galleryImages(qualifier,$productCV);picture(code[unique=true]);thumbnail(code[unique=true]);name[lang=en];$approved
+;111001;pieces;;111001_media_container;/640X640/111001.jpg;/270X270/111001.jpg;Red Bull Race Car
+;111002;pieces;;111002_media_container;/640X640/111002-1.jpg;/270X270/111002.jpg;Europa League Jersey
+;111003;pieces;;111003_media_container;/640X640/111003-1.jpg;/270X270/111003.jpg;RB Leipzig Mission Aufstieg DVD
+;111004;pieces;;111004_media_container;/640X640/111004-1.jpg;/270X270/111004.jpg;Minimax Red Bull Mini 2008
+;111005;pieces;;111005_media_container;/640X640/111005-1.jpg;/270X270/111005.jpg;Red Bull Illume Photobook
